@@ -1,8 +1,10 @@
+import Header from '@/components/landing-site/header'
 import React from 'react'
 
 const HomePageLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <main>
+            <Header />
             {children}
         </main>
     )
