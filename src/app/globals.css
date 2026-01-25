@@ -1,34 +1,324 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-html, body {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  width: 100%;
+@custom-variant dark (&:is(.dark *));
+
+/* 
+ * Custom Figma Design Tokens
+ * All colors, fonts, and spacing from your Figma design system
+ */
+@theme {
+  /* Washed Purple Colors */
+  --color-washed-purple-50: #f8f7ff;
+  --color-washed-purple-100: #e8e7ff;
+  --color-washed-purple-200: #dddcff;
+  --color-washed-purple-300: #cdcbff;
+  --color-washed-purple-400: #c4c1ff;
+  --color-washed-purple-500: #b5b2ff;
+  --color-washed-purple-600: #a5a2e8;
+  --color-washed-purple-700: #817eb5;
+  --color-washed-purple-800: #64628c;
+  --color-washed-purple-900: #4c4b6b;
+
+  /* Washed Blue Colors */
+  --color-washed-blue-50: #f0f3ff;
+  --color-washed-blue-100: #d0daff;
+  --color-washed-blue-200: #bac9ff;
+  --color-washed-blue-300: #9ab0ff;
+  --color-washed-blue-400: #86a1ff;
+  --color-washed-blue-500: #6889ff;
+  --color-washed-blue-600: #5f7de8;
+  --color-washed-blue-700: #4a61b5;
+  --color-washed-blue-800: #394b8c;
+  --color-washed-blue-900: #2c3a6b;
+
+  /* Primary Blue Colors */
+  --color-primary-blue-50: #e6f0ff;
+  --color-primary-blue-100: #b1d1ff;
+  --color-primary-blue-200: #8cbaff;
+  --color-primary-blue-300: #579bff;
+  --color-primary-blue-400: #3687ff;
+  --color-primary-blue-500: #0469ff;
+  --color-primary-blue-600: #0460e8;
+  --color-primary-blue-700: #034bb5;
+  --color-primary-blue-800: #023a8c;
+  --color-primary-blue-900: #022c6b;
+
+  /* Primary Purple Colors */
+  --color-primary-purple-50: #f1e6ff;
+  --color-primary-purple-100: #d3b0ff;
+  --color-primary-purple-200: #bd8aff;
+  --color-primary-purple-300: #9f54ff;
+  --color-primary-purple-400: #8d33ff;
+  --color-primary-purple-500: #7000ff;
+  --color-primary-purple-600: #6600e8;
+  --color-primary-purple-700: #5000b5;
+  --color-primary-purple-800: #3e008c;
+  --color-primary-purple-900: #2f006b;
+
+  /* Neutral Colors */
+  --color-neutrals-1: #ffffff;
+  --color-neutrals-2: #fcfcfd;
+  --color-neutrals-3: #f5f5f6;
+  --color-neutrals-4: #f0f0f1;
+  --color-neutrals-5: #d9d9dc;
+  --color-neutrals-6: #c0bfc4;
+  --color-neutrals-7: #8e8c95;
+  --color-neutrals-8: #5b5966;
+  --color-neutrals-9: #474553;
+  --color-neutrals-10: #292637;
+  --color-neutrals-11: #211f30;
+  --color-neutrals-12: #171427;
+  --color-neutrals-13: #030014;
+
+  /* Brand Colors */
+  --color-brand-washed-purple: #b5b2ff;
+  --color-brand-washed-blue: #6889ff;
+  --color-brand-primary-blue: #0469ff;
+  --color-brand-primary-purple: #7000ff;
+  --color-brand-dark: #030014;
+
+  /* Semantic Colors (for shadcn/ui compatibility) - using your Figma colors */
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  /* Font Sizes */
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.5625rem;
+  --font-size-2xl: 1.625rem;
+  --font-size-3xl: 2.1875rem;
+  --font-size-4xl: 2.8125rem;
+  --font-size-5xl: 3.4375rem;
+  --font-size-6xl: 4.0625rem;
+
+  /* Font Family */
+  --font-family-dm-sans: "DM Sans", sans-serif;
+
+  /* Border Radius */
+  --radius-0: 0rem;
+  --radius-1: 0.025rem;
+  --radius-2: 0.03125rem;
+  --radius-3: 0.05rem;
+  --radius-4: 0.0625rem;
+  --radius-5: 0.06875rem;
+  --radius-6: 0.075rem;
+  --radius-7: 0.09375rem;
+  --radius-8: 0.125rem;
+  --radius-9: 0.15625rem;
+  --radius-10: 0.1875rem;
+  --radius-11: 0.21875rem;
+  --radius-12: 0.25rem;
+  --radius-13: 0.3125rem;
+  --radius-14: 0.4285714328289032rem;
+  --radius-15: 0.4375rem;
+  --radius-16: 0.5rem;
+  --radius-17: 0.625rem;
+  --radius-18: 0.75rem;
+  --radius-19: 0.9375rem;
+  --radius-20: 1.75rem;
+  --radius-21: 1.8125rem;
+  --radius-22: 1.875rem;
+  --radius-23: 2.625rem;
+  --radius-24: 3.125rem;
+}
+
+html,
+body {
   height: 100%;
 }
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Dark theme by default using your Figma colors */
+    --background: 260 100% 4%; /* neutrals-13 / brand-dark */
+    --foreground: 0 0% 100%; /* white text for dark mode */
+    --card: 251 20% 15%; /* neutrals-11 */
+    --card-foreground: 252 25% 11%; /* neutrals-12 */
+    --popover: 251 20% 15%; /* neutrals-11 */
+    --popover-foreground: 252 25% 11%; /* neutrals-12 */
+    --primary: 266 100% 50%; /* primary-purple-500 / brand-primary-purple */
+    --primary-foreground: 0 0% 100%; /* neutrals-1 */
+    --secondary: 251 18% 18%; /* neutrals-10 */
+    --secondary-foreground: 0 0% 100%; /* neutrals-1 */
+    --muted: 251 18% 18%; /* neutrals-10 */
+    --muted-foreground: 253 4% 57%; /* neutrals-7 */
+    --accent: 266 100% 50%; /* primary-purple-500 */
+    --accent-foreground: 0 0% 100%; /* neutrals-1 */
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%; /* neutrals-1 */
+    --border: 249 7% 37%; /* neutrals-8 */
+    --input: 249 7% 37%; /* neutrals-8 */
+    --ring: 266 100% 50%; /* primary-purple-500 */
+    --radius: 0.5rem;
+
+    /* Custom Figma Colors - HSL format for CSS variables */
+    /* Washed Purple */
+    /* Washed Purple */
+    --washed-purple-50: 248 100% 98%;
+    --washed-purple-100: 242 100% 95%;
+    --washed-purple-200: 242 100% 93%;
+    --washed-purple-300: 242 100% 90%;
+    --washed-purple-400: 243 100% 88%;
+    --washed-purple-500: 242 100% 85%;
+    --washed-purple-600: 243 60% 77%;
+    --washed-purple-700: 243 27% 60%;
+    --washed-purple-800: 243 18% 47%;
+    --washed-purple-900: 242 18% 36%;
+
+    /* Washed Blue */
+    --washed-blue-50: 228 100% 97%;
+    --washed-blue-100: 227 100% 91%;
+    --washed-blue-200: 227 100% 86%;
+    --washed-blue-300: 227 100% 80%;
+    --washed-blue-400: 227 100% 76%;
+    --washed-blue-500: 227 100% 70%;
+    --washed-blue-600: 227 75% 64%;
+    --washed-blue-700: 227 42% 50%;
+    --washed-blue-800: 227 42% 39%;
+    --washed-blue-900: 227 42% 30%;
+
+    /* Primary Blue */
+    --primary-blue-50: 216 100% 95%;
+    --primary-blue-100: 215 100% 85%;
+    --primary-blue-200: 216 100% 77%;
+    --primary-blue-300: 216 100% 67%;
+    --primary-blue-400: 216 100% 61%;
+    --primary-blue-500: 216 100% 51%;
+    --primary-blue-600: 216 97% 46%;
+    --primary-blue-700: 216 97% 36%;
+    --primary-blue-800: 216 97% 28%;
+    --primary-blue-900: 216 96% 21%;
+
+    /* Primary Purple */
+    --primary-purple-50: 266 100% 95%;
+    --primary-purple-100: 267 100% 85%;
+    --primary-purple-200: 266 100% 77%;
+    --primary-purple-300: 266 100% 66%;
+    --primary-purple-400: 266 100% 60%;
+    --primary-purple-500: 266 100% 50%;
+    --primary-purple-600: 266 100% 45%;
+    --primary-purple-700: 267 100% 35%;
+    --primary-purple-800: 267 100% 27%;
+    --primary-purple-900: 266 100% 21%;
+
+    /* Neutrals */
+    --neutrals-1: 0 0% 100%;
+    --neutrals-2: 240 20% 99%;
+    --neutrals-3: 240 5% 96%;
+    --neutrals-4: 240 3% 94%;
+    --neutrals-5: 240 4% 86%;
+    --neutrals-6: 252 4% 76%;
+    --neutrals-7: 253 4% 57%;
+    --neutrals-8: 249 7% 37%;
+    --neutrals-9: 249 9% 30%;
+    --neutrals-10: 251 18% 18%;
+    --neutrals-11: 251 20% 15%;
+    --neutrals-12: 252 25% 11%;
+    --neutrals-13: 260 100% 4%;
+
+    /* Brand Colors */
+    --brand-washed-purple: 242 100% 85%;
+    --brand-washed-blue: 227 100% 70%;
+    --brand-primary-blue: 216 100% 51%;
+    --brand-primary-purple: 266 100% 50%;
+    --brand-dark: 260 100% 4%;
+  }
+
+  /* Dark theme (default) - using your Figma colors */
+  .dark {
+    --background: 260 100% 4%; /* neutrals-13 / brand-dark */
+    --foreground: 0 0% 100%; /* white text */
+    --card: 251 20% 15%; /* neutrals-11 */
+    --card-foreground: 252 25% 11%; /* neutrals-12 */
+    --popover: 251 20% 15%; /* neutrals-11 */
+    --popover-foreground: 252 25% 11%; /* neutrals-12 */
+    --primary: 266 100% 50%; /* primary-purple-500 / brand-primary-purple */
+    --primary-foreground: 0 0% 100%; /* neutrals-1 */
+    --secondary: 251 18% 18%; /* neutrals-10 */
+    --secondary-foreground: 0 0% 100%; /* neutrals-1 */
+    --muted: 251 18% 18%; /* neutrals-10 */
+    --muted-foreground: 253 4% 57%; /* neutrals-7 */
+    --accent: 266 100% 50%; /* primary-purple-500 */
+    --accent-foreground: 0 0% 100%; /* neutrals-1 */
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%; /* neutrals-1 */
+    --border: 249 7% 37%; /* neutrals-8 */
+    --input: 249 7% 37%; /* neutrals-8 */
+    --ring: 266 100% 50%; /* primary-purple-500 */
+  }
+
+  /* Light theme - using your Figma colors */
+  .light {
+    --background: 0 0% 100%; /* neutrals-1 */
+    --foreground: 251 18% 18%; /* neutrals-10 */
+    --card: 0 0% 100%; /* neutrals-1 */
+    --card-foreground: 251 18% 18%; /* neutrals-10 */
+    --popover: 0 0% 100%; /* neutrals-1 */
+    --popover-foreground: 251 18% 18%; /* neutrals-10 */
+    --primary: 266 100% 50%; /* primary-purple-500 / brand-primary-purple */
+    --primary-foreground: 0 0% 100%; /* neutrals-1 */
+    --secondary: 240 5% 96%; /* neutrals-3 */
+    --secondary-foreground: 251 18% 18%; /* neutrals-10 */
+    --muted: 240 5% 96%; /* neutrals-3 */
+    --muted-foreground: 253 4% 57%; /* neutrals-7 */
+    --accent: 242 100% 85%; /* washed-purple-500 */
+    --accent-foreground: 251 18% 18%; /* neutrals-10 */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%; /* neutrals-1 */
+    --border: 240 4% 86%; /* neutrals-5 */
+    --input: 240 4% 86%; /* neutrals-5 */
+    --ring: 266 100% 50%; /* primary-purple-500 */
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  body {
+    @apply bg-background;
+    font-family: var(--font-family-dm-sans);
+    color: hsl(var(--foreground));
+  }
+  /* Ensure text is visible - foreground should be light in dark mode */
+  html.dark,
+  html.dark body,
+  html.dark * {
+    color: hsl(var(--foreground));
+  }
+  /* Default text color for better visibility */
+  h1, h2, h3, h4, h5, h6, p, span, div {
+    color: hsl(var(--foreground));
+  }
+}
+
+.animate-slide {
+  animation: 15s slide linear infinite;
+}
+
+@keyframes slide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
 }

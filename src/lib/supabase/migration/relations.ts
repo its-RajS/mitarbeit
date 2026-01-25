@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm/relations";
-import { folders, files, workspaces, usersInAuth, users, customers, products, prices, subscriptions } from "./schema";
+import { folders, files, workspaces, usersInAuth, users, customers, products, prices, subscriptions } from "@/lib/supabase/migration/schema";
 
 export const filesRelations = relations(files, ({one}) => ({
 	folder: one(folders, {
