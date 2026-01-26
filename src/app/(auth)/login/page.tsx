@@ -13,6 +13,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } 
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Loader } from 'lucide-react'
+import { actionLoginUser } from '@/lib/supabase/auth/auth-action'
 
 const LoginPage = () => {
     const route = useRouter()
@@ -29,7 +30,15 @@ const LoginPage = () => {
 
     const isLoading = form.formState.isSubmitting
 
-    const onSubmit: SubmitHandler<z.infer<typeof FormSchema>> = async (formData) => { }
+    const onSubmit: SubmitHandler<z.infer<typeof FormSchema>> = async (formData) => { 
+        const { error } = await actionLoginUser(formData);
+        if (error) {
+            form.reset();
+            setSubmitError(error.message);
+            return
+        }
+        route.replace('/dashboard');
+    }
 
     return (
         <Form
@@ -43,19 +52,19 @@ const LoginPage = () => {
                 <FormDescription className='text-foreground/60' >
                     An all-in-one Collaboration and Productivity Platform
                 </FormDescription>
-                <FormField disabled={isLoading} name='email' render={(field) => (
+                <FormField name='email' render={({field}) => (
                     <FormItem>
                         <FormControl>
-                            <Input type='email' placeholder='Email' {...field} />
+                            <Input type='email' placeholder='Email' {...field}  disabled={isLoading} />
                         </FormControl>
                         <FormMessage />
                     </FormItem>
                 )} />
 
-                <FormField disabled={isLoading} name='password' render={(field) => (
+                <FormField name='password' render={({field}) => (
                     <FormItem>
                         <FormControl>
-                            <Input type='password' placeholder='Password' {...field} />
+                            <Input type='password' placeholder='Password' {...field} disabled={isLoading} />
                         </FormControl>
                         <FormMessage />
                     </FormItem>
@@ -66,7 +75,7 @@ const LoginPage = () => {
                 </Button>
                 <span className='text-center' >
                     Don't have an account?
-                    <Link href='/signup' className=' text-brand-primary-blue hover:text-brand-primary-blue/80' >
+                    <Link href='/signup' className=' text-brand-primary-blue hover:text-brand-primary-blue/80 ml-1' >
                         Sign Up
                     </Link>
                 </span>
