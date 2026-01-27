@@ -15,7 +15,7 @@ const db = drizzle(client, { schema });
 const migrations = async () => {
     try {
         console.log('Migrations started');
-        await migrate(db, { migrationsFolder: 'src/libs/supabase/migration' })
+        await migrate(db, { migrationsFolder: 'src/lib/supabase/migration' })
         console.log('Migrations completed');
     } catch (error) {
         console.error('Migration error:', error);

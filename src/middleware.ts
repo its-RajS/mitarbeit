@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createSupabaseServerClient } from './src/lib/supabase/auth/server'
+import { createSupabaseServerClient } from './lib/supabase/auth/server'
 
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next()

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/lib/provider/theme-provider";
+import { Toaster } from "sonner";
 
 
 const dmSans = DM_Sans({
@@ -33,6 +34,7 @@ export default function RootLayout({
         >
           {children}
         </ThemeProvider>
+        <Toaster position="top-center" richColors />
       </body>
     </html>
   );

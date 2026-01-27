@@ -23,3 +23,10 @@ export const SignUpFormSchema = z.object({
     message: "Passwords don't match.",
     path: ["confirmPassword"],
 })
+
+export const DashboardSetupFormSchema = z.object({
+    workspaceName: z.string().min(1, {
+        message: "Workspace name is required, min 1 character.",
+    }).describe("Workspace Name"),
+    logo: z.any()
+})
