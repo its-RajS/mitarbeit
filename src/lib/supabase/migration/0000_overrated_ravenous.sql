@@ -114,4 +114,3 @@ CREATE POLICY "Everyone can view user data." ON "users" AS PERMISSIVE FOR SELECT
 CREATE POLICY "Allow public read-only access." ON "products" AS PERMISSIVE FOR SELECT TO public USING (true);--> statement-breakpoint
 CREATE POLICY "Allow public read-only access." ON "prices" AS PERMISSIVE FOR SELECT TO public USING (true);--> statement-breakpoint
 CREATE POLICY "Can only view own subs data." ON "subscriptions" AS PERMISSIVE FOR SELECT TO public USING ((( SELECT auth.uid() AS uid) = user_id));
-*/

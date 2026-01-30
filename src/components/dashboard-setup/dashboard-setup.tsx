@@ -6,7 +6,7 @@ import EmojiPicker from '../global/emoji-picker'
 import { useState } from 'react'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { DashboardSetupFormSchema } from '@/lib/types'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -17,6 +17,7 @@ import { Button } from '../ui/button'
 import { Loader } from 'lucide-react'
 import { supabase } from '@/lib/supabase/auth/client'
 import { createWorkspace } from '@/lib/supabase/queries'
+import { useAppState } from '@/lib/provider/state-provider'
 
 interface DashboardSetupProps {
   user: AuthUser, 
@@ -25,9 +26,7 @@ interface DashboardSetupProps {
 
 const DashboardSetup = ({ user, subscription }: DashboardSetupProps) => {
     const router = useRouter();
-    // const { dispatch } = useAppState();
-
-
+    const { dispatch } = useAppState();
 
     const [selectedEmoji, setSelectedEmoji] = useState<string>('💼')
     const {register, handleSubmit, reset, formState:{isSubmitting: isLoading, errors: formErrors}} = useForm<z.infer<typeof DashboardSetupFormSchema>>({
@@ -82,12 +81,13 @@ const DashboardSetup = ({ user, subscription }: DashboardSetupProps) => {
       };
       const { data, error: createError } = await createWorkspace(newWorkspace);
       if (createError || !data) {
+        console.log('Error', createError);
         throw new Error(createError ?? 'Could not create workspace');
       }
-    //   dispatch({
-    //     type: 'ADD_WORKSPACE',
-    //     payload: { ...newWorkspace, folders: [] },
-    //   });
+        dispatch({
+          type: 'ADD_WORKSPACE',
+          payload: { ...newWorkspace, folders: [] },
+        });
 
       toast.success('Workspace Created', {
         description: `${newWorkspace.title} has been created successfully.`,
@@ -95,11 +95,11 @@ const DashboardSetup = ({ user, subscription }: DashboardSetupProps) => {
 
       router.replace(`/dashboard/${newWorkspace.id}`);
     } catch (error) {
-      console.log(error, 'Error');
       toast.error('Could not create your workspace', {
         description:
           "Oops! Something went wrong, and we couldn't create your workspace. Try again or come back later.",
       });
+      console.log('Error', error);
     } finally {
       reset();
     }
@@ -145,7 +145,7 @@ const DashboardSetup = ({ user, subscription }: DashboardSetupProps) => {
                                 placeholder='Workspace Logo'
                                 type='file'
                                 accept='image/*'
-                                disabled={isLoading || subscription?.status !== 'active'}
+                                // disabled={isLoading || subscription?.status !== 'active'}
                                 {...register('logo', { required: 'Workspace logo is required' })}
                             />
                             <small className='text-red-500'>

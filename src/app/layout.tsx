@@ -3,6 +3,7 @@ import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/lib/provider/theme-provider";
 import { Toaster } from "sonner";
+import AppStateProvider from "@/lib/provider/state-provider";
 
 
 const dmSans = DM_Sans({
@@ -26,15 +27,18 @@ export default function RootLayout({
       <body
         className={`${dmSans.variable} font-dm-sans antialiased`}
       >
+        <AppStateProvider>
+
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
-        >
+          >
           {children}
         </ThemeProvider>
         <Toaster position="top-center" richColors />
+        </AppStateProvider>
       </body>
     </html>
   );
